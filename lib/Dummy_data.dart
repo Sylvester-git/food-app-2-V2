@@ -92,9 +92,7 @@ const meal_data = [
   ),
   meal(
     id: 'm2',
-    categoryId: [
-      'c2',
-    ],
+    categoryId: ['c2', 'c5'],
     title: 'Toast Hawaii',
     affordability: Affordability.affordable,
     complexity: Complexity.simple,
@@ -152,9 +150,7 @@ const meal_data = [
   ),
   meal(
     id: 'm4',
-    categoryId: [
-      'c4',
-    ],
+    categoryId: ['c4', 'c1'],
     title: 'Wiener Schnitzel',
     affordability: Affordability.veryPricy,
     complexity: Complexity.challenging,
@@ -223,10 +219,7 @@ const meal_data = [
   ),
   meal(
     id: 'm6',
-    categoryId: [
-      'c6',
-      'c10',
-    ],
+    categoryId: ['c6', 'c10', 'c3'],
     title: 'Delicious Orange Mousse',
     affordability: Affordability.affordable,
     complexity: Complexity.hard,
@@ -261,6 +254,8 @@ const meal_data = [
     id: 'm7',
     categoryId: [
       'c7',
+      'c4',
+      'c9',
     ],
     title: 'Pancakes',
     affordability: Affordability.affordable,
@@ -292,6 +287,7 @@ const meal_data = [
     id: 'm8',
     categoryId: [
       'c8',
+      'c6',
     ],
     title: 'Creamy Indian Chicken Curry',
     affordability: Affordability.pricey,
@@ -325,6 +321,7 @@ const meal_data = [
     id: 'm9',
     categoryId: [
       'c9',
+      'c7',
     ],
     title: 'Chocolate Souffle',
     affordability: Affordability.affordable,
@@ -376,6 +373,7 @@ const meal_data = [
       'c2',
       'c5',
       'c10',
+      'c8',
     ],
     title: 'Asparagus Salad with Cherry Tomatoes',
     affordability: Affordability.veryPricy,
