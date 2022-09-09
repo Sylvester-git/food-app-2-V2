@@ -9,16 +9,15 @@ class MealItem extends StatelessWidget {
   final int duration;
   final Complexity complexity;
   final Affordability affordability;
-  final Function removeItem;
 
-  MealItem(
-      {required this.id,
-      required this.title,
-      required this.imageurl,
-      required this.affordability,
-      required this.complexity,
-      required this.duration,
-      required this.removeItem});
+  MealItem({
+    required this.id,
+    required this.title,
+    required this.imageurl,
+    required this.affordability,
+    required this.complexity,
+    required this.duration,
+  });
 
   //For our complexity which is an enum, we will use a getter to change to human readable words
 
@@ -44,17 +43,11 @@ class MealItem extends StatelessWidget {
   }
 
   void selectmeal(BuildContext ctx) {
-    Navigator.of(ctx)
-        .pushNamed(
+    Navigator.of(ctx).pushNamed(
       MealDetailScreen.routeName,
       arguments: id,
-    )
-        //This function executes after the screen has been poped.
-        .then((vaule) {
-      if (vaule != null) {
-        removeItem(vaule);
-      }
-    });
+    );
+    //This function executes after the screen has been poped.
   }
 
   @override

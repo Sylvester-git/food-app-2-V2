@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import '../Dummy_data.dart';
 import '../Screens/filter.dart';
@@ -23,6 +25,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   List<meal> _availablemeal = meal_data;
+  List<meal> _favoritemeal = [];
   Map<String, bool> _filters = {
     'Gluten': false,
     'Lactose': false,
@@ -49,6 +52,25 @@ class _MyAppState extends State<MyApp> {
         return true;
       }).toList();
     });
+  }
+
+  void _tooglefavorite(String mealid) {
+    final existingIndex =
+        _favoritemeal.indexWhere((favmeal) => favmeal.id == mealid);
+    if (existingIndex >= 0) {
+      setState(() {
+        _favoritemeal.removeAt(existingIndex);
+      });
+    } else {
+      setState(() {
+        _favoritemeal
+            .add(meal_data.firstWhere((favmeal) => favmeal.id == mealid));
+      });
+    }
+  }
+
+  bool _isfavorite(String id) {
+    return _favoritemeal.any((favmeal) => favmeal.id == id);
   }
 
   // This widget is the root of your application.
@@ -90,10 +112,11 @@ class _MyAppState extends State<MyApp> {
       //using navigator.pushnamed
       initialRoute: './',
       routes: {
-        './': (context) => Tabscreen(),
+        './': (context) => Tabscreen(_favoritemeal),
         CategoryDetailscreen.routname: (context) =>
             CategoryDetailscreen(_availablemeal),
-        MealDetailScreen.routeName: (context) => MealDetailScreen(),
+        MealDetailScreen.routeName: (context) =>
+            MealDetailScreen(_tooglefavorite, _isfavorite),
         FiltersScreen.routeName: (context) =>
             FiltersScreen(_filters, _savefilterdata)
       },
