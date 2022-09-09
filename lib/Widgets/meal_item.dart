@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:food_choice_app/Screens/meal_detail.dart';
 import '../models/meal.dart';
 
 class MealItem extends StatelessWidget {
+  final String id;
   final String title;
   final String imageurl;
   final int duration;
   final Complexity complexity;
   final Affordability affordability;
+  final Function removeItem;
 
-  MealItem({
-    required this.title,
-    required this.imageurl,
-    required this.affordability,
-    required this.complexity,
-    required this.duration,
-  });
+  MealItem(
+      {required this.id,
+      required this.title,
+      required this.imageurl,
+      required this.affordability,
+      required this.complexity,
+      required this.duration,
+      required this.removeItem});
 
   //For our complexity which is an enum, we will use a getter to change to human readable words
 
@@ -39,12 +43,27 @@ class MealItem extends StatelessWidget {
     }
   }
 
-  void selectmeal() {}
+  void selectmeal(BuildContext ctx) {
+    Navigator.of(ctx)
+        .pushNamed(
+      MealDetailScreen.routeName,
+      arguments: id,
+    )
+        //This function executes after the screen has been poped.
+        .then((vaule) {
+      if (vaule != null) {
+        removeItem(vaule);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    final maxhigth = MediaQuery.of(context).size.height; //737.4545454545455
+    final maxwidth = MediaQuery.of(context).size.width; //392.72727272727275
+
     return InkWell(
-      onTap: selectmeal,
+      onTap: () => selectmeal(context),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
@@ -62,25 +81,25 @@ class MealItem extends StatelessWidget {
                   ),
                   child: Image.network(
                     imageurl,
-                    height: 250,
+                    height: MediaQuery.of(context).size.height * 0.339,
                     width: double.infinity,
                     fit: BoxFit.cover,
                   ),
                 ),
                 Positioned(
-                  bottom: 20,
-                  right: 10,
+                  bottom: MediaQuery.of(context).size.height * 0.027,
+                  right: MediaQuery.of(context).size.width * 0.0255,
                   child: Container(
                     padding: EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 5,
+                      horizontal: MediaQuery.of(context).size.width * 0.051,
+                      vertical: MediaQuery.of(context).size.height * 0.0038,
                     ),
-                    width: 300,
+                    width: MediaQuery.of(context).size.width * 0.734,
                     color: Colors.black45,
                     child: Text(
                       title,
                       style: TextStyle(
-                        fontSize: 26,
+                        fontSize: 23,
                         color: Colors.white,
                       ),
                       softWrap: true,
@@ -102,7 +121,7 @@ class MealItem extends StatelessWidget {
                           Icons.schedule,
                         ),
                         SizedBox(
-                          width: 6,
+                          width: 3,
                         ),
                         Text('$duration min'),
                       ],
@@ -113,7 +132,7 @@ class MealItem extends StatelessWidget {
                           Icons.work,
                         ),
                         SizedBox(
-                          width: 6,
+                          width: 3,
                         ),
                         Text(complexitytext),
                       ],
@@ -124,7 +143,7 @@ class MealItem extends StatelessWidget {
                           Icons.attach_money_rounded,
                         ),
                         SizedBox(
-                          width: 6,
+                          width: 3,
                         ),
                         Text(affordabilitytext),
                       ],

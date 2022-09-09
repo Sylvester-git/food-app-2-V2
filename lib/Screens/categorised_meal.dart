@@ -1,44 +1,85 @@
 import 'package:flutter/material.dart';
 import 'package:food_choice_app/Widgets/meal_item.dart';
-import '../models/meal.dart';
-import '../Dummy_data.dart';
 
-class CategoryDetailscreen extends StatelessWidget {
+import 'package:food_choice_app/models/meal.dart';
+
+class CategoryDetailscreen extends StatefulWidget {
   //Better practice for namedpush
   static const routname = '/Category_detailpage';
+  final List<meal> availablemeals;
 
-  //final String categoryId;
-  //final String categorytitle;
-
-  //CategoryDetailscreen(this.categoryId, this.categorytitle);
+  CategoryDetailscreen(this.availablemeals);
 
   @override
-  Widget build(BuildContext context) {
-    //Using navigaton.pushnamed
+  State<CategoryDetailscreen> createState() => _CategoryDetailscreenState();
+}
+
+class _CategoryDetailscreenState extends State<CategoryDetailscreen> {
+  late String categorytitle;
+  late List<meal> displayedmeals;
+
+//We cant use initstate because the function runs before our app context can load
+//which is being used by our routearguments
+//So therfore, we use another function (didChangeDependencies)
+  /*@override
+  void initState() {
+    //Using navigaton.pushnamed for passing data to this screen
     final routeargument =
         ModalRoute.of(context)!.settings.arguments as Map<String, String>;
-    final categorytitle = routeargument['title'];
+    categorytitle = routeargument['title']!;
     final categoryid = routeargument['id'];
+    //TODO
+    //final categoryappbarcolor = routeargument['appbarcolor'];
 //We use the where method to filter the list which uses a function to create a new list
-    final categoriesdmeal = meal_data.where((meal) {
+    displayedmeals = meal_data.where((meal) {
       //using the contain method to check if the meal categoryid matches the general categoryid.
       return meal.categoryId.contains(categoryid);
     }).toList();
+    super.initState();
+  }*/
+
+  @override
+  void didChangeDependencies() {
+    //Using navigaton.pushnamed for passing data to this screen
+    final routeargument =
+        ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+    categorytitle = routeargument['title']!;
+    final categoryid = routeargument['id'];
+    //TODO
+    //final categoryappbarcolor = routeargument['appbarcolor'];
+//We use the where method to filter the list which uses a function to create a new list
+    displayedmeals = widget.availablemeals.where((meal) {
+      //using the contain method to check if the meal categoryid matches the general categoryid.
+      return meal.categoryId.contains(categoryid);
+    }).toList();
+    super.didChangeDependencies();
+  }
+
+  void _removeMeal(String mealId) {
+    setState(() {
+      displayedmeals.removeWhere((item) => item.id == mealId);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(categorytitle!),
+          title: Text(categorytitle),
         ),
         body: ListView.builder(
           itemBuilder: (ctx, index) {
             return MealItem(
-              title: categoriesdmeal[index].title,
-              imageurl: categoriesdmeal[index].imageurl,
-              affordability: categoriesdmeal[index].affordability,
-              complexity: categoriesdmeal[index].complexity,
-              duration: categoriesdmeal[index].duration,
+              id: displayedmeals[index].id,
+              title: displayedmeals[index].title,
+              imageurl: displayedmeals[index].imageurl,
+              affordability: displayedmeals[index].affordability,
+              complexity: displayedmeals[index].complexity,
+              duration: displayedmeals[index].duration,
+              removeItem: _removeMeal,
             );
           },
-          itemCount: categoriesdmeal.length,
+          itemCount: displayedmeals.length,
         ));
   }
 }

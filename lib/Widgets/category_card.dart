@@ -10,7 +10,7 @@ class CategoryCard extends StatelessWidget {
   void selectcategory(BuildContext ctx) {
     Navigator.pushNamed(ctx, CategoryDetailscreen.routname, arguments: {
       'id': Id,
-      'title': title,
+      'title': title, /*'appbarcolor': color*/
     });
   }
 

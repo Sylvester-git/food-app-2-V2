@@ -9,9 +9,9 @@ class CategoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView(
       padding: const EdgeInsets.all(10),
-      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-        childAspectRatio: 1.3,
-        maxCrossAxisExtent: 200,
+      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+        childAspectRatio: 1.2,
+        maxCrossAxisExtent: MediaQuery.of(context).size.height * 0.3,
         crossAxisSpacing: 10,
         mainAxisSpacing: 20,
       ),
